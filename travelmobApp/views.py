@@ -81,7 +81,7 @@ def scrap(request):
     else:
         city_object = City.objects.values('name').filter(name__startswith='c').distinct()
         for city in city_object:
-            print 'start'+city['name']
+            #print 'start'+city['name']
         #     # start scrap
             flipKey = FlipKeyScrapper()
             flipKey.start_processing(city['name'])
