@@ -53,7 +53,7 @@ class FlipKeyScrapper():
 
     # Start
     def start_processing(self, name):
-        print 'Target City is -----> ' + name
+        #print 'Target City is -----> ' + name
         URLs = self.build_target_url(city_name=name)
 
 
@@ -75,12 +75,12 @@ class FlipKeyScrapper():
                     page_no = 0
 
                     url = self.build_search_url(slash_name)
-                    print 'start with search url ===>' + str(url)
+                    #print 'start with search url ===>' + str(url)
 
                     # open connection for search
                     search_conn_result = self.open_http_connection(call_url=url, page=page_no)
 
-                    print 'Total Page' + str(json.loads(search_conn_result)['tot_pages'])
+                    #print 'Total Page' + str(json.loads(search_conn_result)['tot_pages'])
 
                     if search_conn_result :
                         # save to databse
@@ -134,7 +134,7 @@ class FlipKeyScrapper():
     # Start Parse First Page
     def parse_item_page(self, url):
 
-        print 'start adv page '+str(url)
+        #print 'start adv page '+str(url)
 
         owner = {}
         adv_page_result = self.open_http_connection(call_url=url, page=None)
