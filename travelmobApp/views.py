@@ -48,12 +48,12 @@ def exportData(request, id, name):
 
 
 @require_http_methods(["GET"])
-def exportExtraData(request, id, name , unique):
+def exportExtraData(request, id, name, unique):
     # get data
     if unique:
-        data = ScrapDetails.objects.filter(scrap__id=id,phone__isnull=False)
+        data = ScrapDetails.objects.filter(scrap__id=id, phone__isnull=False)
     else:
-        data = ScrapDetails.objects.filter(scrap__id=id,phone__isnull=False)
+        data = ScrapDetails.objects.filter(scrap__id=id, phone__isnull=False)
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="' + name + '.csv"'
@@ -79,14 +79,13 @@ def scrap(request):
 
         return HttpResponse(json.dumps(ret, ensure_ascii=False))
     else:
-        city_object = City.objects.values('name').filter(name__startswith='c').distinct()
-        for city in city_object:
-            print 'start'+city['name']
-        #     # start scrap
-            flipKey = FlipKeyScrapper()
+        cities = City.objects.values('name').filter(name__startswith='d').distinct()
+        flipKey = FlipKeyScrapper()
+        for city in cities:
+            print 'start processing with city ' + str(city['name'])
+            # start scrap
             flipKey.start_processing(city['name'])
-        # flipKey = FlipKeyScrapper()
-        # flipKey.start_processing(cityId)
-
+            # flipKey = FlipKeyScrapper()
+            # flipKey.start_processing(cityId)
 
     return None

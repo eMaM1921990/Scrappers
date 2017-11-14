@@ -53,9 +53,10 @@ class FlipKeyScrapper():
 
     # Start
     def start_processing(self, name):
-        print 'Target City is -----> ' + name
+        print 'inside start_processing method -----> ' + name
         URLs = self.build_target_url(city_name=name)
 
+        print 'target url is '+str(URLs)
 
         # Open connection for get target urls
         connection_result = self.open_http_connection(call_url=URLs, page=None)
