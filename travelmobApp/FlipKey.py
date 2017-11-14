@@ -60,7 +60,7 @@ class FlipKeyScrapper():
         # Open connection for get target urls
         connection_result = self.open_http_connection(call_url=URLs, page=None)
 
-        print connection_result
+        #print connection_result
 
         # Sleep for while
         time.sleep(self.time_wait)
@@ -122,7 +122,7 @@ class FlipKeyScrapper():
             if scraped_html_page.status_code == 200:
                 return scraped_html_page.text
         except Exception as e:
-            print str(e)
+            #print str(e)
             return None
 
     # Get Search URL
