@@ -25,7 +25,7 @@ SECRET_KEY = 'q=l5gg#_lynkgx=n-o21^fsg15f#nxlztg*d56g$653=*)6uce'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['emam1921990.pythonanywhere.com']
+ALLOWED_HOSTS = ['proflags.org:8000']
 
 # Application definition
 
