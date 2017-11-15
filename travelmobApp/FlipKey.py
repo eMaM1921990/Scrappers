@@ -72,33 +72,34 @@ class FlipKeyScrapper():
 
                 # Check if sSlashName exist
                 if slash_name:
-                    page_no = 0
+                    if ScrapModel.objects.get(name=display_name).count() == 0:
+                        page_no = 0
 
-                    url = self.build_search_url(slash_name)
-                    #print 'start with search url ===>' + str(url)
+                        url = self.build_search_url(slash_name)
+                        #print 'start with search url ===>' + str(url)
 
-                    # open connection for search
-                    search_conn_result = self.open_http_connection(call_url=url, page=page_no)
+                        # open connection for search
+                        search_conn_result = self.open_http_connection(call_url=url, page=page_no)
 
-                    #print 'Total Page' + str(json.loads(search_conn_result)['tot_pages'])
+                        #print 'Total Page' + str(json.loads(search_conn_result)['tot_pages'])
 
-                    if search_conn_result :
-                        # save to databse
-                        record = ScrapModel()
-                        record.name = display_name
-                        record.save()
+                        if search_conn_result :
+                            # save to databse
+                            record = ScrapModel()
+                            record.name = display_name
+                            record.save()
 
-                        # parse search item for first page
-                        self.parse_search_items(search_conn_result, record)
+                            # parse search item for first page
+                            self.parse_search_items(search_conn_result, record)
 
-                        total_pages = json.loads(search_conn_result)['tot_pages']
+                            total_pages = json.loads(search_conn_result)['tot_pages']
 
-                        for page in range(1, total_pages):
-                            # open connection for search
-                            search_conn_result = self.open_http_connection(call_url=url, page=page)
+                            for page in range(1, total_pages):
+                                # open connection for search
+                                search_conn_result = self.open_http_connection(call_url=url, page=page)
 
-                            if search_conn_result:
-                                self.parse_search_items(search_conn_result, record)
+                                if search_conn_result:
+                                    self.parse_search_items(search_conn_result, record)
 
     # Build URL to get Search URLS
     def build_target_url(self, city_name):
