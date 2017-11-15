@@ -72,7 +72,7 @@ class FlipKeyScrapper():
 
                 # Check if sSlashName exist
                 if slash_name:
-                    if ScrapModel.objects.get(name=display_name).count() == 0:
+                    if ScrapModel.objects.filter(name=display_name).count() == 0:
                         page_no = 0
 
                         url = self.build_search_url(slash_name)
