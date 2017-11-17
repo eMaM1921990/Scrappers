@@ -20,6 +20,9 @@ class ScrapModel(models.Model):
     def count_has_numbers(self):
         return self.scrap_model.filter(phone__isnull=False).count()
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         managed = MANAGED
         db_table = 'scrap_model'

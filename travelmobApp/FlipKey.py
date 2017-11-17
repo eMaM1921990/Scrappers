@@ -123,7 +123,7 @@ class FlipKeyScrapper():
             if scraped_html_page.status_code == 200:
                 return scraped_html_page.text
         except Exception as e:
-            #print str(e)
+            print str(e)
             return None
 
     # Get Search URL
