@@ -20,7 +20,14 @@ class ScrapModel(models.Model):
     def count_has_numbers(self):
         return self.scrap_model.filter(phone__isnull=False).count()
 
+    @property
+    def count_all(self):
+        return self.scrap_model.all().count()
+
     def __unicode__(self):
+        return self.name
+
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -35,6 +42,12 @@ class ScrapDetails(models.Model):
     l_name = models.CharField(max_length=150,null=True)
     phone = models.CharField(max_length=150,null=True)
     url = models.URLField()
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         managed = MANAGED

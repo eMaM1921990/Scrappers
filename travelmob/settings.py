@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'travelmobApp',
     'cities_light',
+    'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
