@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 
 # Register your models here.
+from import_export import fields
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -12,6 +13,9 @@ from travelmobApp.models import ScrapModel, ScrapDetails
 
 # Resources
 class ScrapModelResource(resources.ModelResource):
+    count_all_number = fields.Field(attribute='count_has_numbers')
+    count_all_record = fields.Field(attribute='count_all')
+
     class Meta:
         model = ScrapModel
         skip_unchanged = True
@@ -25,10 +29,36 @@ class ScapperAdmin(ImportExportModelAdmin):
 
     resource_class = ScrapModelResource
 
+
+
     class Meta:
         verbose_name = 'City Scrapper'
         verbose_name_plural = 'City Scrapper'
 
-
+staging.ini
 admin.site.register(ScrapModel, ScapperAdmin)
-admin.site.register(ScrapDetails)
+
+
+# Resources
+class ScrapDetailsResource(resources.ModelResource):
+    class Meta:
+        model = ScrapDetails
+        skip_unchanged = True
+
+
+class ScapperDetailsAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'name', 'f_name', 'l_name', 'phone','url','scrap']
+
+    list_per_page = 10
+    search_fields = ('id', 'name', 'f_name', 'l_name', 'phone',)
+
+    def get_queryset(self, request):
+        qs = super(ScapperDetailsAdmin, self).get_queryset(request)
+
+    resource_class = ScrapDetailsResource
+
+    class Meta:
+        verbose_name = 'City Scrapper Details'
+        verbose_name_plural = 'City Scrapper Details'
+
+admin.site.register(ScrapDetails,ScapperDetailsAdmin)
