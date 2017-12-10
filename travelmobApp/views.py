@@ -79,7 +79,7 @@ def scrap(request):
 
         return HttpResponse(json.dumps(ret, ensure_ascii=False))
     else:
-        cities = City.objects.values('name').filter(name__startswith='k').distinct()
+        cities = City.objects.values('name').filter(name__startswith='l').distinct()
         flipKey = FlipKeyScrapper()
         for city in cities:
             print 'start processing with city ' + str(city['name'])
