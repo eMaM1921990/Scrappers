@@ -35,7 +35,6 @@ class ScapperAdmin(ImportExportModelAdmin):
         verbose_name = 'City Scrapper'
         verbose_name_plural = 'City Scrapper'
 
-staging.ini
 admin.site.register(ScrapModel, ScapperAdmin)
 
 
