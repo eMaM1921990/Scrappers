@@ -12,9 +12,8 @@ MANAGED = True
 
 class ScrapModel(models.Model):
     name = models.TextField()
-    source = models.CharField(max_length=100, null=False , default='FlipKey')
+    source = models.CharField(max_length=100, null=False, default='FlipKey')
     created_date = models.DateField(default=django.utils.timezone.now)
-
 
     @property
     def count_has_numbers(self):
@@ -38,9 +37,9 @@ class ScrapModel(models.Model):
 class ScrapDetails(models.Model):
     scrap = models.ForeignKey(ScrapModel, models.CASCADE, related_name='scrap_model', db_column='scrap_mode_id')
     name = models.CharField(max_length=150, null=True)
-    f_name = models.CharField(max_length=150,null=True)
-    l_name = models.CharField(max_length=150,null=True)
-    phone = models.CharField(max_length=150,null=True)
+    f_name = models.CharField(max_length=150, null=True)
+    l_name = models.CharField(max_length=150, null=True)
+    phone = models.CharField(max_length=150, null=True)
     url = models.URLField()
 
     def __unicode__(self):
@@ -52,3 +51,12 @@ class ScrapDetails(models.Model):
     class Meta:
         managed = MANAGED
         db_table = 'scrap_details'
+
+
+class SalesForce(models.Model):
+    sales_force_id = models.IntegerField()
+    sales_force_phone = models.CharField(max_length=250,db_index=True)
+
+    class Meta:
+        managed = MANAGED
+        db_table = 'sales_force'

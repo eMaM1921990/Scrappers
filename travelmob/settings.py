@@ -132,3 +132,9 @@ WEBSITE_LIST = ['TravelMob']
 
 # Cities light
 CITIES_LIGHT_INCLUDE_COUNTRIES = ['US']
+
+
+# SALES FORCE INTEGRATION
+USERNAME = 'support@voyajoy.com'
+PASS = 'voyajoy2go'
+TOKEN = 'Ht2XNY9aeCNdLvR1LpTcyz3N'

@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import csv
+import openpyxl
+from openpyxl.utils import get_column_letter
 
+try:
+    import cStringIO as StringIO
+except ImportError:
+    import StringIO
+import csv
+import sys
+
+import xlsxwriter
 from cities_light.models import City
 from django.conf import settings
+from django.db.models import Count
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 import json
@@ -14,6 +24,9 @@ from django.views.decorators.http import require_http_methods
 
 from travelmobApp.FlipKey import FlipKeyScrapper
 from travelmobApp.models import ScrapModel, ScrapDetails
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 def index(request):
@@ -29,6 +42,81 @@ def travelMobData(request):
     template = 'travelMobData.html'
     context['data'] = ScrapModel.objects.all()
     return render(request, template, context=context)
+
+
+def exportPropertyUnitCount(request):
+    # get data
+    allData = ScrapDetails.objects.filter(name__isnull=False)
+    data = allData.values('name', 'f_name', 'l_name', 'scrap__name').annotate(total=Count('id')).order_by('-total')
+
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=PropertyManager.xlsx'
+    wb = openpyxl.Workbook()
+    ws = wb.get_active_sheet()
+    ws.title = "URL Count"
+
+    row_num = 0
+
+    columns = [
+        (u"Property Manager", 15),
+        (u"Location", 100),
+        (u"Count", 70),
+    ]
+
+    for col_num in xrange(len(columns)):
+        c = ws.cell(row=row_num + 1, column=col_num + 1)
+        c.value = columns[col_num][0]
+        # set column width
+        ws.column_dimensions[get_column_letter(col_num+1)].width = columns[col_num][1]
+
+    for obj in data:
+        row_num += 1
+        row = [
+            obj['name'].encode('utf-8').strip(),
+            obj['scrap__name'].encode('utf-8').strip(),
+            obj['total'],
+        ]
+        for col_num in xrange(len(row)):
+            c = ws.cell(row=row_num + 1, column=col_num + 1)
+            c.value = row[col_num]
+
+    ws = wb.create_sheet()
+    ws.title = "URL "
+    row_num = 0
+
+    columns = [
+        (u"Property Manager", 15),
+        (u"Location", 100),
+        (u"URL", 70),
+        (u"Phone", 70),
+    ]
+
+    for col_num in xrange(len(columns)):
+        c = ws.cell(row=row_num + 1, column=col_num + 1)
+        c.value = columns[col_num][0]
+        # set column width
+        ws.column_dimensions[get_column_letter(col_num+1)].width = columns[col_num][1]
+
+    for obj in allData:
+        row_num += 1
+        row = [
+            obj.name,
+            obj.scrap.name,
+            obj.url,
+            obj.phone
+        ]
+        for col_num in xrange(len(row)):
+            c = ws.cell(row=row_num + 1, column=col_num + 1)
+            c.value = row[col_num]
+
+    wb.save(response)
+    return response
+
+
+
+
+
 
 
 @require_http_methods(["GET"])
