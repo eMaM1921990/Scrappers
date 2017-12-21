@@ -78,7 +78,7 @@ def exportPropertyUnitCount(request):
             obj['name'].encode('utf-8').strip(),
             obj['scrap__name'].encode('utf-8').strip(),
             obj['url'].encode('utf-8').strip(),
-            obj['phone'].encode('utf-8').strip(),
+            obj['phone'].encode('utf-8').strip() if obj['phone'] else '',
             obj['total'],
         ]
         for col_num in xrange(len(row)):
