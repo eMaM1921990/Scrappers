@@ -46,47 +46,17 @@ def travelMobData(request):
 
 def exportPropertyUnitCount(request):
     # get data
-    allData = ScrapDetails.objects.filter(name__isnull=False)
-    data = allData.values('name', 'f_name', 'l_name', 'scrap__name','url','phone').annotate(total=Count('id')).order_by('-total')
+    data = ScrapDetails.objects.filter(name__isnull=False).values('name','scrap__name','phone').annotate(total=Count('id')).order_by('-total')
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="property.csv"'
+    writer = csv.writer(response)
+    field_names = ["Manager name ", 'Location','count']
+    writer.writerow(field_names)
+    for row in data:
+        if len(row['name'].encode('utf-8').strip())>0:
 
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=PropertyManager.xlsx'
-    wb = openpyxl.Workbook()
-    ws = wb.get_active_sheet()
-    ws.title = "URL Count"
-
-    row_num = 0
-
-    columns = [
-        (u"Property Manager", 15),
-        (u"Location", 100),
-
-        (u"URL", 70),
-        (u"Phone", 70),
-        (u"Count", 70),
-    ]
-
-    for col_num in xrange(len(columns)):
-        c = ws.cell(row=row_num + 1, column=col_num + 1)
-        c.value = columns[col_num][0]
-        # set column width
-        ws.column_dimensions[get_column_letter(col_num + 1)].width = columns[col_num][1]
-
-    for obj in data:
-        row_num += 1
-        row = [
-            obj['name'].encode('utf-8').strip(),
-            obj['scrap__name'].encode('utf-8').strip(),
-            obj['url'].encode('utf-8').strip(),
-            obj['phone'].encode('utf-8').strip() if obj['phone'] else '',
-            obj['total'],
-        ]
-        for col_num in xrange(len(row)):
-            c = ws.cell(row=row_num + 1, column=col_num + 1)
-            c.value = row[col_num]
-
-
-    wb.save(response)
+             writer.writerow([row['name'].encode('utf-8').strip(), row['scrap__name'].encode('utf-8').strip(),row['phone'], row['total']])
     return response
 
 

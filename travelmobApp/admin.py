@@ -7,6 +7,7 @@ from django.contrib import admin
 from import_export import fields
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from import_export.fields import Field
 
 from travelmobApp.models import ScrapModel, ScrapDetails
 
@@ -39,9 +40,11 @@ admin.site.register(ScrapModel, ScapperAdmin)
 
 # Resources
 class ScrapDetailsResource(resources.ModelResource):
+
     class Meta:
         model = ScrapDetails
         skip_unchanged = True
+        fields = ['id', 'name', 'f_name', 'l_name', 'phone', 'url', 'scrap__name']
 
 
 class ScapperDetailsAdmin(ImportExportModelAdmin):
