@@ -29,11 +29,10 @@ class ScapperAdmin(ImportExportModelAdmin):
 
     resource_class = ScrapModelResource
 
-
-
     class Meta:
         verbose_name = 'City Scrapper'
         verbose_name_plural = 'City Scrapper'
+
 
 admin.site.register(ScrapModel, ScapperAdmin)
 
@@ -46,13 +45,10 @@ class ScrapDetailsResource(resources.ModelResource):
 
 
 class ScapperDetailsAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'name', 'f_name', 'l_name', 'phone','url','scrap']
+    list_display = ['id', 'name', 'f_name', 'l_name', 'phone', 'url', 'scrap']
 
     list_per_page = 10
     search_fields = ('id', 'name', 'f_name', 'l_name', 'phone',)
-
-    def get_queryset(self, request):
-        qs = super(ScapperDetailsAdmin, self).get_queryset(request)
 
     resource_class = ScrapDetailsResource
 
@@ -60,4 +56,5 @@ class ScapperDetailsAdmin(ImportExportModelAdmin):
         verbose_name = 'City Scrapper Details'
         verbose_name_plural = 'City Scrapper Details'
 
-admin.site.register(ScrapDetails,ScapperDetailsAdmin)
+
+admin.site.register(ScrapDetails, ScapperDetailsAdmin)
