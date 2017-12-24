@@ -135,6 +135,6 @@ CITIES_LIGHT_INCLUDE_COUNTRIES = ['US']
 
 
 # SALES FORCE INTEGRATION
-USERNAME = 'support@voyajoy.com'
-PASS = 'voyajoy2go'
-TOKEN = 'Ht2XNY9aeCNdLvR1LpTcyz3N'
+USERNAME = 'diana@voyajoy.com'
+PASS = 'govoyajoy123'
+TOKEN = 'hI07RSStGz5ywveX8dYDivIA'

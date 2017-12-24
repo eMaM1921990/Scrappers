@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 import openpyxl
 from openpyxl.utils import get_column_letter
 
+from travelmobApp.SalesForce import  SalesForceClass
+
 try:
     import cStringIO as StringIO
 except ImportError:
@@ -118,3 +120,20 @@ def scrap(request):
             # flipKey.start_processing(cityId)
 
     return None
+
+
+def cloneSalesForceLeads(request):
+    SalesForce = SalesForceClass()
+    # SalesForce.check_and_create_lead(
+    #     last_name='(Fake do not process) Joe & Mathers Fava',
+    #     phone='16268645227',
+    #     campaign_source='Panama City, FL',
+    #     lead_source='Flipkey Website',
+    #     website='https://www.flipkey.com/properties/8801586/',
+    #     company='Flipkey',
+    #     tags='flipkey, scrape, house',
+    #     is_international=True
+    # )
+
+    sales_force_leads_list  = SalesForce.query_all_leads()
+    return sales_force_leads_list

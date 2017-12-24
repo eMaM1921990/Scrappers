@@ -17,7 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from travelmobApp import api
-from travelmobApp.views import index, scrap, travelMobData, exportData, exportExtraData, exportPropertyUnitCount
+from travelmobApp.views import index, scrap, travelMobData, exportData, exportExtraData, exportPropertyUnitCount, \
+    cloneSalesForceLeads
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^export/(?P<id>.*)/(?P<name>.*)/$', exportData,name='exportData'),
     url(r'^export/(?P<id>.*)/(?P<name>.*)/(?P<unique>.*)$', exportExtraData,name='exportExtraData'),
     url(r'^propertyManager/$', exportPropertyUnitCount,name='propertyManager'),
+    url(r'^sales_force/$', cloneSalesForceLeads,name='cloneSalesForceLeads'),
 
 
     url(r'^api/v1/craiglist/$', api.CriagListScrap, name='CriagListScrap'),
